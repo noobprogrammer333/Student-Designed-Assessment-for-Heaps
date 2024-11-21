@@ -242,27 +242,70 @@ void buildMinHeap(vector<int>& heap) {
 // Main Program
 int main() {
     vector<int> maxHeap;
+    vector<int> unsortedArray;
+    int choice, powerLevel;
+    string creature;
 
-    // Task 1: Populate the Beastarium
-    insertMaxHeap(maxHeap, 45, "Werewolf");
-    insertMaxHeap(maxHeap, 30, "Centaur");
-    insertMaxHeap(maxHeap, 60, "Dragon");
-    insertMaxHeap(maxHeap, 50, "Phoenix");
-    insertMaxHeap(maxHeap, 80, "Chimera");
+    do {
+        cout << "\n--- Beastarium Management System ---\n";
+        cout << "1. Summon a Beast (Insert into Max-Heap)\n";
+        cout << "2. Release the Alpha Beast (Remove from Max-Heap)\n";
+        cout << "3. Reintroduce the Last Released Beast\n";
+        cout << "4. Emergency Containment (Heapify an Array into Min-Heap)\n";
+        cout << "5. Display Current Beastarium (Heap View)\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-    // Task 2: Remove the Alpha Beast
-    deleteRootMaxHeap(maxHeap);
-    deleteRootMaxHeap(maxHeap);
+        switch (choice) {
+            case 1:
+                cout << "\nEnter the creature's name: ";
+                cin >> creature;
+                cout << "Enter the creature's power level: ";
+                cin >> powerLevel;
+                insertMaxHeap(maxHeap, powerLevel, creature);
+                break;
 
-    // Backtracking Task: Reintroduce a removed beast
-    reintroduceLastRemoved(maxHeap, "Dragon");
-    reintroduceLastRemoved(maxHeap, "Phoenix");
+            case 2:
+                deleteRootMaxHeap(maxHeap);
+                break;
 
-    // Task 3: Emergency Beast Rescue (Heapify an Array)
-    vector<int> unsortedArray = {75, 40, 60, 90, 20};
-    cout << "\n?? Starting emergency containment with the array: ";
-    displayHeap(unsortedArray);
-    buildMinHeap(unsortedArray);
+            case 3:
+                cout << "\nEnter the creature's name to reintroduce: ";
+                cin >> creature;
+                reintroduceLastRemoved(maxHeap, creature);
+                break;
+
+            case 4:
+                cout << "\nEnter the number of creatures for emergency containment: ";
+                int n;
+                cin >> n;
+                unsortedArray.clear();
+                for (int i = 0; i < n; ++i) {
+                    cout << "Enter power level of creature " << (i + 1) << ": ";
+                    cin >> powerLevel;
+                    unsortedArray.push_back(powerLevel);
+                }
+                cout << "\n?? Starting emergency containment with the array: ";
+                displayHeap(unsortedArray);
+                buildMinHeap(unsortedArray);
+                break;
+
+            case 5:
+                cout << "\nCurrent Beastarium:\n";
+                displayHeap(maxHeap);
+                displayHeapTree(maxHeap);
+                break;
+
+            case 6:
+                cout << "\nExiting the Beastarium Management System. Goodbye!\n";
+                break;
+
+            default:
+                cout << "\nInvalid choice. Please try again.\n";
+                break;
+        }
+    } while (choice != 6);
 
     return 0;
 }
